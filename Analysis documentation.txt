@@ -1,0 +1,118 @@
+## Histogram analysis
+# MSRP (Manufacturer’s Suggested Retail Price)
+- Distribution:
+Highly right-skewed (positive skew).
+Most cars are clustered at the lower end (under 100,000) with a long tail reaching beyond 500,000 to 2 million.
+
+- Insight:
+A small number of luxury/supercars with extremely high MSRP values exist as outliers.
+This skew could impact correlation and regression models (since mean would get pulled up).
+
+- Normalization of distribution
+Consider a log-transformation of MSRP for analysis
+
+# Engine Horsepower (engine_hp)
+- Distribution:
+Also right-skewed, but less extreme than MSRP.
+Most cars have horsepower clustered between 100 and 300 HP.
+A few cars have horsepower values exceeding 500 HP — high-performance sports cars or luxury SUVs.
+
+- Insight:
+This skew might also affect correlation strength with MSRP.
+Grouping into bins required (Low HP: 0-150, Medium HP: 150-300, High HP: 300+)
+
+# City MPG (city_mpg)
+- Distribution:
+Fairly skewed. Most cars have city MPG values between 10 to 30 MPG, with a sharp drop-off beyond that.
+
+- Insight:
+Fuel-efficient cars with city MPG over 40+ are rare — likely hybrid or electric cars.
+
+- Potential correlation:
+Expected to show a negative correlation with MSRP (cheaper cars usually have better fuel economy, though exceptions like Teslas might alter that pattern).
+
+# Highway MPG (highway_mpg)
+- Distribution:
+Similar to city_mpg — concentrated around 10 to 40 MPG, with some outliers beyond that.
+
+- Insight:
+Higher highway MPG values typically belong to small sedans, hybrids, or EVs.
+There’s a narrow variance — meaning most cars are designed with similar highway efficiency standards.
+
+- Potential correlation:
+Could have a weaker correlation with MSRP compared to engine horsepower, since fuel economy isn't always a price determinant in luxury markets.
+
+
+
+## Correlational Heatmap analysis
+
+| Variable Pair          | Correlation | Interpretation                                                                                  |
+|:----------------------|:------------|:-------------------------------------------------------------------------------------------------|
+| **msrp & engine_hp**    | **0.65**     | Strong positive correlation — higher horsepower generally comes with a higher price tag.         |
+| **city_mpg & highway_mpg** | **0.89**     | Extremely strong positive correlation — as expected, since both measure fuel efficiency and usually move together. |
+| **msrp & city_mpg**     | -0.16        | Weak negative correlation — pricier cars tend to have slightly worse city mileage (likely luxury or high-performance       vehicles). |
+| **msrp & highway_mpg**  | -0.16        | Same as above — higher MSRP typically correlates with lower highway mileage.                     |
+| **engine_hp & city_mpg**| -0.42        | Moderate negative correlation — more powerful engines consume more fuel in the city.             |
+| **engine_hp & highway_mpg**| -0.42     | Similar negative relationship on the highway, though perhaps a bit less impactful at steady speeds. |
+
+# Insights
+
+- Strongest link:
+Between city_mpg and highway_mpg (0.89). Makes sense since vehicles with good city mileage also do well on highways.
+
+- Price driven by power:
+MSRP and engine horsepower have a solid positive correlation (0.65). More HP usually means higher pricing due to performance and brand positioning.
+
+- MSRP vs MPG:
+Both city and highway MPG have weak negative correlations with MSRP. Indicates that expensive cars generally aren’t bought for fuel economy.
+
+
+
+## Box plot analysis
+
+# msrp (Manufacturer's Suggested Retail Price)
+- Distribution: Very right-skewed.
+
+- Most values: Cluster around the lower end (probably below 100,000).
+
+- Outliers: Many cars have extremely high MSRPs, reaching up to 2 million — those are your luxury and hypercar outliers (think Ferrari, Rolls-Royce, Bugatti).
+
+- Insight: Car prices mostly stay low-to-mid range, but a few outliers dramatically increase the maximum.
+
+# engine_hp (Engine Horsepower)
+- Distribution: Also right-skewed, but less extreme than MSRP.
+
+- Most values: Around 100-300 HP.
+
+- Outliers: A bunch beyond 600 HP, and one extreme case near 1000 HP.
+
+- Insight: Most cars fall into a normal consumer-friendly horsepower range, with a few performance beasts out there.
+
+# city_mpg (City Miles per Gallon)
+- Distribution: Moderate right-skew.
+
+- Most values: Between 15 and 40 mpg.
+
+- Outliers: Some cars achieve 80-130 mpg (likely hybrids/electric vehicles or errors).
+
+- Insight: Average city mileage is reasonable, with outliers for ultra-efficient cars.
+
+# highway_mpg (Highway Miles per Gallon)
+- Distribution: Similar to city_mpg — moderate right-skew.
+
+- Most values: Between 20 and 40 mpg.
+
+- Outliers: Some vehicles going up to 300+ mpg (likely hybrids/electrics or dataset anomalies).
+
+- Insight: Most cars have realistic highway mileage, with a few hyper-efficient or anomalous entries.
+
+
+# Overall Observations:
+- All four variables are right-skewed with a cluster of values at lower ranges and outliers at the higher end.
+
+- Outliers are prominent in MSRP and horsepower — very common in automotive data due to luxury and performance segments.
+
+- City and highway mileage are fairly distributed but have some suspiciously high outliers worth validating (or trimming if prepping for a predictive model).
+
+
+
